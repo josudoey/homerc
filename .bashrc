@@ -117,6 +117,8 @@ if [[ -s "$HOME/.nvm/nvm.sh" ]] ; then
     echo "Enable nvm `nvm current`"
 fi
 
+alias docker_inst="$REQ https://get.docker.com/ | sh"
+
 if [ -e /usr/local/etc/profile.d/z.sh ] ; then
     . /usr/local/etc/profile.d/z.sh
 fi
