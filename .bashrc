@@ -88,9 +88,6 @@ alias vundle_inst="test -e $HOME/.vim/bundle/Vundle.vim&&echo vundle already ins
 
 [[ -s "$HOME/.inputrc" ]] && export INPUTRC="$HOME/.inputrc"
 
-#Load bash_profile
-[[ -s "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
-
 #Load rvm
 alias rvm_inst="gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3;req https://get.rvm.io | bash -s stable;. $HOME/.bashrc"
 if [[ -d $HOME/.rvm/bin ]] ; then
@@ -128,3 +125,26 @@ if [ -n "$SSH_TTY" ] ; then
     test -e /etc/motd && cat /etc/motd
 fi
 
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
