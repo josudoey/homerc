@@ -84,12 +84,12 @@ set autologout=0
 
 #Format json
 alias json="python -m json.tool"
-alias vundle_inst="test -e $HOME/.vim/bundle/Vundle.vim&&echo vundle already install.||git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim;vim +PluginInstall +qall"
+alias inst_vundle="test -e $HOME/.vim/bundle/Vundle.vim&&echo vundle already install.||git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim;vim +PluginInstall +qall"
 
 [[ -s "$HOME/.inputrc" ]] && export INPUTRC="$HOME/.inputrc"
 
 #Load rvm
-alias rvm_inst="gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3;req https://get.rvm.io | bash -s stable;. $HOME/.bashrc"
+alias inst_rvm="gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3;req https://get.rvm.io | bash -s stable;. $HOME/.bashrc"
 if [[ -d $HOME/.rvm/bin ]] ; then
     . "$HOME/.rvm/scripts/rvm" 
     export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
@@ -97,7 +97,7 @@ if [[ -d $HOME/.rvm/bin ]] ; then
 fi
 
 #Load virtualenv
-alias virtualenv_inst="virtualenv $HOME/.virtualenv;source $HOME/.bashrc"
+alias inst_virtualenv="virtualenv $HOME/.virtualenv;source $HOME/.bashrc"
 if [[ -s "$HOME/.virtualenv/bin/activate" ]] ; then
     export VIRTUAL_ENV_DISABLE_PROMPT=1
     . "$HOME/.virtualenv/bin/activate"
@@ -106,8 +106,8 @@ if [[ -s "$HOME/.virtualenv/bin/activate" ]] ; then
 fi
 
 #Load nvm
-alias nvm_inst="$REQ https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | bash;source $HOME/.bashrc"
-alias iojs_inst="$REQ https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | bash;nvm install iojs;nvm alias default iojs;source $HOME/.bashrc"
+alias inst_nvm="$REQ https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash;source $HOME/.bashrc"
+alias inst_node="$REQ https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash;. ~/.nvm/nvm.sh;nvm install node;nvm alias default node;source $HOME/.bashrc"
 if [[ -s "$HOME/.nvm/nvm.sh" ]] ; then
     export NVM_DIR="$HOME/.nvm"
     . "$NVM_DIR/nvm.sh"  # This loads nvm
