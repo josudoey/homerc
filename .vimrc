@@ -1,35 +1,19 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" Load vim-plug
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'pangloss/vim-javascript'
-Plugin 'editorconfig/editorconfig-vim'
-
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-"filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-
+call plug#begin('~/.vim/plugged')
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'maksimr/vim-jsbeautify'
+Plug 'pangloss/vim-javascript'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'jelera/vim-javascript-syntax'
+call plug#end()
 
 hi clear
 hi Normal       guifg=ivory guibg=Black
@@ -83,7 +67,6 @@ hi String          ctermfg=LightGreen
 hi Number          ctermfg=LightGreen
 
 set cursorline
-"hi CursorLine term=underline cterm=underline guibg=#555555
 highlight CursorLine cterm=NONE ctermbg=24
 
 "ref http://vim.wikia.com/wiki/Highlight_unwanted_spaces
@@ -138,6 +121,7 @@ map <C-t><C-p> :tabp<CR>
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 nnoremap <F3> :echo expand('%:p')<CR>
 nnoremap <F4> :marks<CR>
+nnoremap <F8> :NERDTreeToggle<CR>
 nnoremap <F5> :set expandtab!<CR>
 
 " map Mac OS X Terminal.app default Home and End
@@ -218,16 +202,22 @@ function! Run()
     execute a:cmd
 endfunction
 
+function! PrettyFile()
+    let a:ft=&filetype
+    if a:ft=="javascript"
+        call JsBeautify()
+    end
+    if a:ft=="html"
+        call HtmlBeautify()
+    end
+    if a:ft=="css"
+        call CSSBeautify()
+    end
+endfunction
+
 nnoremap <LEADER><F9> :call SetExec()<CR>
 nnoremap <F9> :call Run()<CR>
 nnoremap <LEADER><F10> :call SetArgs()<CR>
 
-map <c-f> :call JsBeautify()<cr>
-" or
-autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>:filetype plugin indent on<cr>
-" for html
-autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>:filetype plugin indent on<cr>
-" for css or scss
-autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>:filetype plugin indent on<cr>
-
-autocmd BufWritePost *.js execute 'call JsBeautify()'
+nnoremap <F6> :call PrettyFile()<CR>
+autocmd BufWritePre * execute 'call PrettyFile()'
