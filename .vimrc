@@ -10,11 +10,11 @@ endif
 
 call plug#begin('~/.vim/plugged')
 " On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'maksimr/vim-jsbeautify'
-Plug 'pangloss/vim-javascript'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'jelera/vim-javascript-syntax'
+    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'maksimr/vim-jsbeautify'
+    Plug 'pangloss/vim-javascript'
+    Plug 'editorconfig/editorconfig-vim'
+    Plug 'jelera/vim-javascript-syntax'
 call plug#end()
 
 if !empty(NeedInstallPlug)
