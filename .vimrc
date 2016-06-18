@@ -15,6 +15,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'pangloss/vim-javascript'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'jelera/vim-javascript-syntax'
+    Plug 'fatih/vim-go'
 call plug#end()
 
 if !empty(NeedInstallPlug)
