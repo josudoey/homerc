@@ -16,7 +16,7 @@ change_file(){
     fi
     cp ${pwd}/${rc} ${hrc}
 }
-for rc in .*rc .*profile ;
+for rc in .*rc .*profile .editorconfig;
 do
 change_file ${rc}
 done
