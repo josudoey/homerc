@@ -1,20 +1,26 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+let NeedInstallPlug=""
 " Load vim-plug
 if empty(glob("~/.vim/autoload/plug.vim"))
-    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+    execute '!mkdir -p  ~/.vim/autoload && curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+    let NeedInstallPlug="true"
 endif
 
 call plug#begin('~/.vim/plugged')
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'maksimr/vim-jsbeautify'
-Plug 'pangloss/vim-javascript'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'elzr/vim-json'
+    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'maksimr/vim-jsbeautify'
+    Plug 'pangloss/vim-javascript'
+    Plug 'editorconfig/editorconfig-vim'
+    Plug 'jelera/vim-javascript-syntax'
+    Plug 'fatih/vim-go'
+    Plug 'elzr/vim-json'
 call plug#end()
+
+if !empty(NeedInstallPlug)
+    :PlugInstall
+end
 
 hi clear
 hi Normal       guifg=ivory guibg=Black

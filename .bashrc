@@ -116,8 +116,26 @@ fi
 
 alias docker_inst="$REQ https://get.docker.com/ | sh"
 
-if [ -e /usr/local/etc/profile.d/z.sh ] ; then
-    . /usr/local/etc/profile.d/z.sh
+#linuxbrew
+inst_linuxbrew(){
+  #ref https://github.com/Linuxbrew/brew
+  if [[  `uname -a` =~ "ubuntu" ]] ; then
+      sudo apt-get install build-essential curl git python-setuptools ruby
+  fi
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install)"
+}
+
+if [ -e $HOME/.linuxbrew ] ; then
+    export PATH="$HOME/.linuxbrew/bin:$PATH"
+    export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH:"
+    export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH:"
+fi
+
+#golang
+if [ -x `which go` ] ; then
+    mkdir -p "$HOME/.gopath"
+    export GOPATH="$HOME/.gopath"
+    export PATH=$PATH:$GOPATH/bin
 fi
 
 #Show motd
