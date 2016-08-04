@@ -13,6 +13,7 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'pangloss/vim-javascript'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'jelera/vim-javascript-syntax'
+Plug 'elzr/vim-json'
 call plug#end()
 
 hi clear
@@ -204,6 +205,9 @@ endfunction
 
 function! PrettyFile()
     let a:ft=&filetype
+    if a:ft=="json"
+        call JsonBeautify()
+    end
     if a:ft=="javascript"
         call JsBeautify()
     end
