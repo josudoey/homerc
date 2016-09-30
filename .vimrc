@@ -109,6 +109,10 @@ set noai
 set nocin
 set nosi 
 set inde=
+
+" ref https://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write
+set backupcopy=yes
+
 nnoremap <leader><TAB> :set ai! cin! si! <CR>
 
 " new tab
