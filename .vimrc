@@ -222,7 +222,10 @@ function! PrettyFile()
         call JsBeautify()
     end
     if a:ft=="html"
-        call HtmlBeautify()
+        let a:pos = getpos(".")
+        echo  a:pos
+        normal gg=G
+        call cursor(a:pos[1], a:pos[2])
     end
     if a:ft=="css"
         call CSSBeautify()
