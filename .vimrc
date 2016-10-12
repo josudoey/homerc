@@ -80,6 +80,10 @@ highlight CursorLine cterm=NONE ctermbg=24
 :highlight Tab ctermbg=237 guibg=lightgreen
 :match Tab /\t\+/
 
+:highlight ExtraWhitespace ctermbg=red guibg=red
+:match ExtraWhitespace /\s\+$/
+
+
 set nobackup
 set nonumber
 set background=dark
