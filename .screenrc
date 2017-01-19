@@ -39,11 +39,11 @@ bindkey "^[[1;2D" prev
 
 #For Window
 # ctrl + -> and ctrl + <-
-bindkey "^[[C" next
-bindkey "^[[D" prev
+#bindkey "^[[C" next
+#bindkey "^[[D" prev
 
 #Enable Window HotKey
 bind W eval "bindkey \"^[[C\" next" "bindkey \"^[[D\" prev" "echo \"Enable Window Key\""
 
 #Disable Window HotKey (When use Mac OS need)
-bind M eval "bindkey \"^[[C\" " "bindkey \"^[[D\" " "echo \"Disable Window Key\""
+#bind M eval "bindkey \"^[[C\" " "bindkey \"^[[D\" " "echo \"Disable Window Key\""
