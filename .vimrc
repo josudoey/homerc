@@ -4,22 +4,25 @@ filetype off                  " required
 let NeedInstallPlug=""
 " Load vim-plug
 if empty(glob("~/.vim/autoload/plug.vim"))
-    execute '!mkdir -p  ~/.vim/autoload && curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-    let NeedInstallPlug="true"
+  execute '!mkdir -p  ~/.vim/autoload && curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+  let NeedInstallPlug="true"
 endif
 
 call plug#begin('~/.vim/plugged')
-    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-    Plug 'maksimr/vim-jsbeautify'
-    Plug 'pangloss/vim-javascript'
-    Plug 'editorconfig/editorconfig-vim'
-    Plug 'jelera/vim-javascript-syntax'
-    Plug 'fatih/vim-go'
-    Plug 'elzr/vim-json'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'fatih/vim-go'
+Plug 'elzr/vim-json'
+Plug 'digitaltoad/vim-pug'
+Plug 'isRuslan/vim-es6'
+Plug 'maksimr/vim-jsbeautify'
+Plug 'josudoey/vim-eslint-fix'
+Plug 'josudoey/vim4exec'
 call plug#end()
 
 if !empty(NeedInstallPlug)
-    :PlugInstall
+  :PlugInstall
 end
 
 hi clear
@@ -105,13 +108,11 @@ au BufRead,BufNewFile *.c set noexpandtab
 au BufRead,BufNewFile *.h set noexpandtab
 au BufRead,BufNewFile Makefile* set noexpandtab
 
-
-
 "ref http://www.rcramer.com/tech/linux/vim_indent.html
 ":verbose set ai? cin? cink? cino? si? inde? indk?
 set noai
 set nocin
-set nosi 
+set nosi
 set inde=
 
 " ref https://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write
@@ -120,6 +121,7 @@ set backupcopy=yes
 nnoremap <leader><TAB> :set ai! cin! si! <CR>
 
 " new tab
+map <C-t><C-t> :tabnew<CR>:match Tab /\t\+/<CR>
 map <C-t><C-t> :tabnew<CR>:match Tab /\t\+/<CR>
 " close tab
 map <C-t><C-w> :tabclose<CR>
@@ -179,66 +181,46 @@ map [C w
 map [D b
 
 function! WinResize()
-    let a:cmd=input(':','vertical resize +1')
-    execute a:cmd
+  let a:cmd=input(':','vertical resize +1')
+  execute a:cmd
 endfunction
 nnoremap <C-W>> :call WinResize()<CR>
 
-function! SetArgs()
-    let w:args=input('run args:',getwinvar(winnr(),"args"))
-endfunction
-function! SetExec()
-    let a:exec=getwinvar(winnr(),"exec")
-    if a:exec==""
-        let w:exec=GetDefaultExec()
-    end
-    let w:exec=input('run exec:',getwinvar(winnr(),"exec"))
-endfunction
-function! Realpath(path)
-    if a:path[0]=="/"
-        return a:path
-    else
-        return resolve(getcwd()."/".a:path)
-    end
-endfunction
-function! GetDefaultExec()
-    let a:f=Realpath(bufname("%"))
-    return "test -x ".a:f."&&cd `dirname ".a:f."`&&".a:f
-endfunction
-function! Run()
-    w
-    let a:args=getwinvar(winnr(),"args")
-    let a:exec=getwinvar(winnr(),"exec")
-    if a:exec==""
-        let w:exec=GetDefaultExec()
-        let a:exec=w:exec
-    end
-    let a:cmd="!".a:exec." ".a:args
-    execute a:cmd
-endfunction
-
 function! PrettyFile()
-    let a:ft=&filetype
-    if a:ft=="json"
-        call JsonBeautify()
-    end
-    if a:ft=="javascript"
-        call JsBeautify()
-    end
-    if a:ft=="html"
-        let a:pos = getpos(".")
-        echo  a:pos
-        normal gg=G
-        call cursor(a:pos[1], a:pos[2])
-    end
-    if a:ft=="css"
-        call CSSBeautify()
-    end
+  let a:ft=&filetype
+  if a:ft=="json"
+    if exists('g:loaded_Beautifier')
+      call JsonBeautify()
+    endif
+  end
+  if a:ft=="javascript"
+    if exists('g:loaded_Beautifier')
+      call JsBeautify()
+    endif
+    if exists('g:loaded_ESLintFix')
+      call ESLintFix()
+    endif
+  end
+  if a:ft=="html"
+    let a:pos = getpos(".")
+    echo  a:pos
+    normal gg=G
+    call cursor(a:pos[1], a:pos[2])
+  end
+  if a:ft=="css"
+    if exists('g:loaded_Beautifier')
+      call CSSBeautify()
+    endif
+  end
 endfunction
 
-nnoremap <LEADER><F9> :call SetExec()<CR>
-nnoremap <F9> :call Run()<CR>
-nnoremap <LEADER><F10> :call SetArgs()<CR>
+if executable('eslint')
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+  let g:syntastic_javascript_checkers = ['eslint']
+  let g:syntastic_javascript_eslint_exec = 'eslint'
+endif
 
 nnoremap <F6> :call PrettyFile()<CR>
 autocmd BufWritePre * execute 'call PrettyFile()'
