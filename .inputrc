@@ -28,8 +28,8 @@
 
 #linux
 #alt + left
-"3C":forward-word
+#"3C":forward-word
 #alt + right
-"3D":backward-word
+#"3D":backward-word
 
 "\eOP":""
