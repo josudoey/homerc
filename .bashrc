@@ -35,7 +35,7 @@ fi
 
 if [ "$TERM_PROGRAM" == "vscode" ] ; then
     for ((i=0;;i++)) do
-        id=$(basename $pwd|shasum|cut -d ' ' -f 1)
+        id=$(basename $PWD|shasum|cut -d ' ' -f 1)
         pidfile=~/.histfile/.vscode.$id.$i.pid
         if [ ! -f "$pidfile" ]; then
             echo $$ > $pidfile
