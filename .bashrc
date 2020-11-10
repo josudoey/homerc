@@ -27,10 +27,28 @@ alias hr="history -r ~/.histfile/last"
 alias hn="history -n ~/.histfile/last"
 alias hc="history -c"
 
+export HISTFILE=~/.histfile/hist
+
 if [ "$?WINDOW" ] ; then
    export HISTFILE=~/.histfile/hist$WINDOW
-else
-   export HISTFILE=~/.histfile/hist
+fi
+
+if [ "$TERM_PROGRAM" == "vscode" ] ; then
+    for ((i=0;;i++)) do
+        id=$(echo $pwd|shasum|cut -d ' ' -f 1)
+        pidfile=~/.histfile/.vscode.$id.$i.pid
+        if [ ! -f "$pidfile" ]; then
+            echo $$ > $pidfile
+            export HISTFILE=~/.histfile/vscode.$id.$i
+            break
+        fi
+        if kill -0 $(cat $pidfile) 2>/dev/null; then
+            continue
+        fi
+        echo $$ > $pidfile
+        export HISTFILE=~/.histfile/vscode.$id.$i
+        break
+    done
 fi
 
 if [[  `uname` =~ "Linux" ]] ; then
@@ -133,9 +151,10 @@ fi
 
 #golang
 if [ -x `which go` ] ; then
-    mkdir -p "$HOME/.gopath"
-    export GOPATH="$HOME/.gopath"
+    mkdir -p "$HOME/go"
+    export GOPATH="$HOME/go"
     export PATH=$PATH:$GOPATH/bin
+    export GOSUMDB=off
 fi
 
 #Show motd
@@ -166,3 +185,4 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
