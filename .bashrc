@@ -12,6 +12,7 @@ if [ -z "$PS1" ]; then #for scp use.
     return;
 fi
 
+export LANG=en_US.UTF-8
 export TERM=xterm-256color
 export PS1='\[\e[1;36m\]\t!\! \[\e[01;33m\]\u\[\e[m\]@\h\[\e[0m\]:\[\e[01;34m\]\w\[\e[0m\]\$ '
 PATH=${PATH}:${HOME}/bin
