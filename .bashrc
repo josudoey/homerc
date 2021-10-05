@@ -12,9 +12,13 @@ if [ -z "$PS1" ]; then #for scp use.
     return;
 fi
 
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
-export PS1='\[\e[1;36m\]\t!\! \[\e[01;33m\]\u\[\e[m\]@\h\[\e[0m\]:\[\e[01;34m\]\w\[\e[0m\]\$ '
+export PS1="\[\e[1;36m\]\t!\! \[\e[01;33m\]\u\[\e[m\]@\h\[\e[0m\]:\[\e[01;34m\]\w\[\e[91m\]\$(parse_git_branch)\[\e[0m\]\$ "
 PATH=${PATH}:${HOME}/bin
 export EDITOR=/usr/bin/vim
 
